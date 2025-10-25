@@ -9,7 +9,6 @@ on:
 jobs:
   deploy:
     runs-on: [self-hosted, Linux, X64]
-    # Solo desplegar si el CI fue exitoso
     if: ${{ github.event.workflow_run.conclusion == 'success' }}
 
     steps:
@@ -22,12 +21,43 @@ jobs:
       - name: Validar nodos
         run: kubectl get nodes -o wide
 
-      - name: Update deployment image
+      # 🔥 PASO 1: ELIMINAR TODO (si existe)
+      - name: Delete old resources
         run: |
-          kubectl set image deployment/frontend-seminario \
-            frontend-seminario=kennyadg/frontend-seminario:${{ github.event.workflow_run.head_sha }} \
-            -n microservices
+          echo "🗑️ Eliminando recursos anteriores..."
+          kubectl delete deployment frontend-seminario -n microservices --ignore-not-found=true
+          kubectl delete pods -l app=frontend-seminario -n microservices --ignore-not-found=true
+          echo "✅ Limpieza completada"
+
+      # ⏳ PASO 2: ESPERAR A QUE TODO SE LIMPIE
+      - name: Wait for cleanup
+        run: |
+          echo "⏳ Esperando limpieza completa..."
+          sleep 15
           
-      - name: Wait for rollout to complete
+      # 🚀 PASO 3: APLICAR MANIFIESTOS FRESCOS
+      - name: Apply fresh manifests
         run: |
-          kubectl rollout status deployment/frontend-seminario -n microservices --timeout=5m
+          echo "📦 Aplicando manifiestos..."
+          kubectl apply -f k8s/frontend/
+          echo "✅ Manifiestos aplicados"
+
+      # ⏳ PASO 4: ESPERAR A QUE EL DEPLOYMENT ESTÉ LISTO
+      - name: Wait for deployment to be ready
+        run: |
+          echo "⏳ Esperando a que el deployment esté listo..."
+          kubectl wait --for=condition=available --timeout=300s deployment/frontend-seminario -n microservices
+          echo "✅ Deployment listo"
+
+      # ℹ️ PASO 5: VERIFICAR EL ESTADO
+      - name: Verify deployment
+        run: |
+          echo "📊 Estado del deployment:"
+          kubectl get deployment frontend-seminario -n microservices
+          echo ""
+          echo "📦 Pods en ejecución:"
+          kubectl get pods -l app=frontend-seminario -n microservices
+          echo ""
+          echo "🖼️ Imagen actual:"
+          kubectl get pods -l app=frontend-seminario -n microservices -o jsonpath='{.items[0].spec.containers[0].image}'
+          echo ""
