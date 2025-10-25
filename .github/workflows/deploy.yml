@@ -1,0 +1,23 @@
+name: CD - Deploy Frontend
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  deploy:
+    runs-on: [self-hosted, Linux, X64]
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Ver contexto del cluster
+        run: kubectl config current-context
+
+      - name: Validar nodos
+        run: kubectl get nodes -o wide
+
+      - name: Aplicar manifiestos frontend
+        run: kubectl apply -f k8s/frontend -n microservices

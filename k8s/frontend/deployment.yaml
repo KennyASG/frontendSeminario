@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frontend-seminario
+  namespace: microservices
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: frontend-seminario
+  template:
+    metadata:
+      labels:
+        app: frontend-seminario
+    spec:
+      containers:
+        - name: frontend-seminario
+          image: kennyadg/frontend-seminario:latest
+          ports:
+            - containerPort: 80
+          resources:
+            requests:
+              memory: "64Mi"
+              cpu: "50m"
+            limits:
+              memory: "128Mi"
+              cpu: "100m"
