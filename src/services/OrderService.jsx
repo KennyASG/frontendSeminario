@@ -1,7 +1,7 @@
 import apiService from './apiService';
 import API_ENDPOINTS from '../config/apiEndpoints';
 
-const orderService = {
+const OrderService = {
     async getAll() {
         return await apiService.get(API_ENDPOINTS.ALL_ORDERS);
     },
@@ -27,4 +27,4 @@ const orderService = {
     }
 };
 
-export default orderService;
+export default OrderService;

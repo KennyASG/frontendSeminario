@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import orderService from '../services/OrderService';
+import OrderService from '../services/OrderService.jsx';
 
 export default function AdminOrdersPage() {
     const [orders, setOrders] = useState([]);

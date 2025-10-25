@@ -1,7 +1,7 @@
 import apiService from './apiService';
 import API_ENDPOINTS from '../config/apiEndpoints';
 
-const ticketService = {
+const TicketService = {
     // Obtener tipos de tickets de un concierto
     async getTicketTypes(concertId) {
         return await apiService.get(API_ENDPOINTS.TICKET_TYPES(concertId));
@@ -38,4 +38,4 @@ const ticketService = {
     }
 };
 
-export default ticketService;
+export default TicketService;

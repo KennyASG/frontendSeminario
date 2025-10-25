@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import LoadingSpinner from '../components/common/LoadingSpinner';
-import orderService from '../services/orderService';
+import OrderService from '../services/OrderService';rvices/orderService';
 import userService from '../services/userService';
 
 export default function MyOrdersPage() {

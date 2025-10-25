@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import concertService from '../services/concertService';
-import ticketService from '../services/ticketService';
+import TicketService from '../services/TicketService';
 import userService from '../services/userService';
 import LoadingSpinner from '../components/common/LoadingSpinner';
 
@@ -100,7 +100,7 @@ export default function ConcertDetailPage() {
             
             const selectedSummary = getSelectedTicketsSummary();
             const reservationPromises = selectedSummary.map(ticket => 
-                ticketService.createReservation({
+                TicketService.createReservation({
                     concert_id: parseInt(id),
                     ticket_type_id: ticket.id,
                     quantity: ticket.quantity
