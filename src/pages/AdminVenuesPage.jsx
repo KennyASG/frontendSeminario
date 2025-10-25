@@ -16,7 +16,8 @@ export default function AdminVenuesPage() {
         try {
             setLoading(true);
             const data = await venueService.getAll();
-            setVenues(data);
+            console.log('Venues data:', data);
+            setVenues(Array.isArray(data) ? data : data.venues || []);
         } catch (err) {
             setError(err.message || 'Error al cargar venues');
         } finally {

@@ -16,7 +16,9 @@ export default function AdminConcertsPage() {
         try {
             setLoading(true);
             const data = await concertService.getAll();
-            setConcerts(data);
+            console.log('Concerts data:', data);
+            // La API puede devolver un objeto con propiedad 'concerts' o directamente un array
+            setConcerts(Array.isArray(data) ? data : data.concerts || []);
         } catch (err) {
             setError(err.message || 'Error al cargar conciertos');
         } finally {
