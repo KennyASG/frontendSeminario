@@ -7,7 +7,10 @@ import LoginPage from '../pages/Loginpage';
 import RegisterPage from '../components/RegisterPage';
 import ConcertsPage from '../pages/ConcertsPage';
 import ConcertDetailPage from '../pages/ConcertDetailPage';
-// import MyOrdersPage from '../pages/MyOrdersPage';
+import CheckoutPage from '../pages/Checkoutpage';
+import PaymentPage from '../pages/PaymentPage';
+import MyOrdersPage from '../pages/MyOrdersPage';
+import OrderDetailPage from '../pages/OrderDetailPage';
 import AdminConcertsPage from '../pages/AdminConcertsPage';
 import ConcertForm from '../pages/ConcertForm';
 import AdminVenuesPage from '../pages/AdminVenuesPage';
@@ -63,11 +66,26 @@ function AppRoutes() {
                                         <ConcertDetailPage />
                                     </ProtectedRoute>
                                 } />
-                                {/* <Route path="/my-orders" element={
+                                <Route path="/checkout" element={
+                                    <ProtectedRoute>
+                                        <CheckoutPage />
+                                    </ProtectedRoute>
+                                } />
+                                <Route path="/payment" element={
+                                    <ProtectedRoute>
+                                        <PaymentPage />
+                                    </ProtectedRoute>
+                                } />
+                                <Route path="/my-orders" element={
                                     <ProtectedRoute>
                                         <MyOrdersPage />
                                     </ProtectedRoute>
-                                } /> */}
+                                } />
+                                <Route path="/my-orders/:orderId" element={
+                                    <ProtectedRoute>
+                                        <OrderDetailPage />
+                                    </ProtectedRoute>
+                                } />
 
                                 {/* Rutas de administración - Conciertos */}
                                 <Route path="/admin/concerts" element={
