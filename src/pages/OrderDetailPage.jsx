@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import LoadingSpinner from '../components/common/LoadingSpinner';
-import OrderService from '../services/OrderService';rvices/orderService';
+import OrderService from '../services/OrderService';
 
 export default function OrderDetailPage() {
     const { orderId } = useParams();
@@ -18,7 +18,7 @@ export default function OrderDetailPage() {
     const fetchOrderDetail = async () => {
         try {
             setLoading(true);
-            const data = await orderService.getById(orderId);
+            const data = await OrderService.getById(orderId);
             setOrder(data);
         } catch (err) {
             console.error('Error al cargar detalle de orden:', err);

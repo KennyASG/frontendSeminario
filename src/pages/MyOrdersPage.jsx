@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import LoadingSpinner from '../components/common/LoadingSpinner';
-import OrderService from '../services/OrderService';rvices/orderService';
+import OrderService from '../services/OrderService';
 import userService from '../services/userService';
 
 export default function MyOrdersPage() {
@@ -24,7 +24,7 @@ export default function MyOrdersPage() {
                 return;
             }
 
-            const data = await orderService.getUserOrders(user.id);
+            const data = await OrderService.getUserOrders(user.id);
             setOrders(Array.isArray(data) ? data : []);
         } catch (err) {
             console.error('Error al cargar órdenes:', err);

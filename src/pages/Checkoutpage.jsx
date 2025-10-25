@@ -81,7 +81,7 @@ export default function CheckoutPage() {
                 quantity: firstTicket.quantity
             };
 
-            const order = await orderService.create(orderData);
+            const order = await OrderService.create(orderData);
 
             // Guardar orden ID para la página de pago
             const paymentData = {

@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import LoadingSpinner from '../components/common/LoadingSpinner';
-import OrderService from '../services/OrderService';rvices/orderService';
+import OrderService from '../services/OrderService';
 
 export default function PaymentPage() {
     const navigate = useNavigate();
@@ -106,7 +106,7 @@ export default function PaymentPage() {
             await new Promise(resolve => setTimeout(resolve, 2000));
 
             // Confirmar la orden en el backend
-            const confirmedOrder = await orderService.confirm(paymentData.orderId);
+            const confirmedOrder = await OrderService.confirm(paymentData.orderId);
 
             setOrderDetails(confirmedOrder);
             setPaymentSuccess(true);

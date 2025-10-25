@@ -15,7 +15,7 @@ export default function AdminOrdersPage() {
     const fetchOrders = async () => {
         try {
             setLoading(true);
-            const data = await orderService.getAll();
+            const data = await OrderService.getAll();
             console.log('Orders data:', data);
             setOrders(Array.isArray(data) ? data : data.orders || []);
         } catch (err) {
