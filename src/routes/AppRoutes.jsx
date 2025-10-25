@@ -13,6 +13,7 @@ import ConcertForm from '../pages/ConcertForm';
 import AdminVenuesPage from '../pages/AdminVenuesPage';
 import VenueForm from '../pages/VenueForm';
 import VenueSectionsPage from '../pages/VenuesSectionPage';
+import ConcertTicketTypesPage from '../pages/ConcertTicketTypesPage';
 import AdminOrdersPage from '../pages/AdminOrdersPage';
 
 // Componente de ruta protegida
@@ -82,6 +83,11 @@ function AppRoutes() {
                                 <Route path="/admin/concerts/edit/:id" element={
                                     <ProtectedRoute adminOnly>
                                         <ConcertForm />
+                                    </ProtectedRoute>
+                                } />
+                                <Route path="/admin/concerts/:concertId/tickets" element={
+                                    <ProtectedRoute adminOnly>
+                                        <ConcertTicketTypesPage />
                                     </ProtectedRoute>
                                 } />
 

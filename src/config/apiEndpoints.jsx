@@ -27,13 +27,14 @@ const API_ENDPOINTS = {
     DELETE_SECTION: (venueId, sectionId) => `${API_CONFIG.VENUE_SERVICE}/venue/admin/venue/${venueId}/section/${sectionId}`,
 
     // TICKETS - Puerto 3003
-    TICKET_TYPES: (concertId) => `${API_CONFIG.TICKET_SERVICE}/ticket/concert/${concertId}/ticket-types`,
+    // ✅ CORREGIDO: Sin el prefijo /ticket extra
+    TICKET_TYPES: (concertId) => `${API_CONFIG.TICKET_SERVICE}/concert/${concertId}/ticket-types`,
     CREATE_RESERVATION: `${API_CONFIG.TICKET_SERVICE}/ticket/reserve`,
     USER_RESERVATIONS: `${API_CONFIG.TICKET_SERVICE}/ticket/reservations`,
-    CREATE_TICKET_TYPE: (concertId) => `${API_CONFIG.TICKET_SERVICE}/ticket/admin/concert/${concertId}/ticket-type`,
-    UPDATE_TICKET_TYPE: (id) => `${API_CONFIG.TICKET_SERVICE}/ticket/admin/ticket-type/${id}`,
-    DELETE_TICKET_TYPE: (id) => `${API_CONFIG.TICKET_SERVICE}/ticket/admin/ticket-type/${id}`,
-    RELEASE_EXPIRED: `${API_CONFIG.TICKET_SERVICE}/ticket/admin/tickets/release-expired`,
+    CREATE_TICKET_TYPE: (concertId) => `${API_CONFIG.TICKET_SERVICE}/admin/concert/${concertId}/ticket-type`,
+    UPDATE_TICKET_TYPE: (id) => `${API_CONFIG.TICKET_SERVICE}/admin/ticket-type/${id}`,
+    DELETE_TICKET_TYPE: (id) => `${API_CONFIG.TICKET_SERVICE}/admin/ticket-type/${id}`,
+    RELEASE_EXPIRED: `${API_CONFIG.TICKET_SERVICE}/admin/tickets/release-expired`,
 
     // ORDERS - Puerto 3004
     CREATE_ORDER: `${API_CONFIG.ORDER_SERVICE}/order/`,
