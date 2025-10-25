@@ -3,7 +3,7 @@ import userService from '../services/userService';
 import Sidebar from '../components/layout/Sidebar';
 import Navbar from '../components/layout/Navbar';
 import MainContent from '../components/layout/MainContent';
-import LoginPage from '../pages/LoginPage';
+import LoginPage from '../pages/Loginpage';
 import RegisterPage from '../components/RegisterPage';
 import ConcertsPage from '../pages/ConcertsPage';
 import ConcertDetailPage from '../pages/ConcertDetailPage';

@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import concertService from '../services/concertService';
-import ticketService from '../services/ticketService';
+import ticketService from '../services/TicketService';
 
 export default function ConcertTicketTypesPage() {
     const { concertId } = useParams();
