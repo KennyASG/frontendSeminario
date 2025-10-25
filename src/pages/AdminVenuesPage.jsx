@@ -16,7 +16,7 @@ export default function AdminVenuesPage() {
         try {
             setLoading(true);
             const data = await venueService.getAll();
-            setVenues(data);
+            setVenues(Array.isArray(data) ? data : data.venues || []);
         } catch (err) {
             setError(err.message || 'Error al cargar venues');
         } finally {
@@ -24,14 +24,16 @@ export default function AdminVenuesPage() {
         }
     };
 
-    const handleDelete = async (id) => {
-        if (!confirm('¿Estás seguro de eliminar este venue?')) return;
+    const handleDelete = async (id, name) => {
+        if (!confirm(`¿Estás seguro de eliminar el venue "${name}"? Esta acción eliminará también todas sus secciones y asientos.`)) {
+            return;
+        }
 
         try {
             await venueService.delete(id);
             setVenues(venues.filter(v => v.id !== id));
         } catch (err) {
-            alert(err.message || 'Error al eliminar');
+            alert(err.message || 'Error al eliminar. Puede que este venue esté siendo usado en conciertos.');
         }
     };
 
@@ -61,55 +63,71 @@ export default function AdminVenuesPage() {
                 </div>
             )}
 
-            <div className="bg-white rounded-lg shadow overflow-hidden">
-                <table className="min-w-full divide-y divide-gray-200">
-                    <thead className="bg-gray-50">
-                        <tr>
-                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">ID</th>
-                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Nombre</th>
-                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Dirección</th>
-                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Ciudad</th>
-                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">País</th>
-                            <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase">Acciones</th>
-                        </tr>
-                    </thead>
-                    <tbody className="bg-white divide-y divide-gray-200">
-                        {venues.map((venue) => (
-                            <tr key={venue.id}>
-                                <td className="px-6 py-4 whitespace-nowrap text-sm">{venue.id}</td>
-                                <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">{venue.name}</td>
-                                <td className="px-6 py-4 whitespace-nowrap text-sm">{venue.address}</td>
-                                <td className="px-6 py-4 whitespace-nowrap text-sm">{venue.city}</td>
-                                <td className="px-6 py-4 whitespace-nowrap text-sm">{venue.country}</td>
-                                <td className="px-6 py-4 whitespace-nowrap text-right text-sm space-x-2">
-                                    <button
-                                        onClick={() => navigate(`/admin/venues/${venue.id}`)}
-                                        className="text-blue-600 hover:text-blue-900"
-                                    >
-                                        Ver
-                                    </button>
-                                    <button
-                                        onClick={() => navigate(`/admin/venues/${venue.id}/edit`)}
-                                        className="text-green-600 hover:text-green-900"
-                                    >
-                                        Editar
-                                    </button>
-                                    <button
-                                        onClick={() => handleDelete(venue.id)}
-                                        className="text-red-600 hover:text-red-900"
-                                    >
-                                        Eliminar
-                                    </button>
-                                </td>
-                            </tr>
-                        ))}
-                    </tbody>
-                </table>
-            </div>
+            {venues.length === 0 ? (
+                <div className="bg-gray-50 rounded-lg p-8 text-center">
+                    <p className="text-gray-500 text-lg mb-4">No hay venues registrados</p>
+                    <button
+                        onClick={() => navigate('/admin/venues/create')}
+                        className="bg-red-500 hover:bg-red-600 text-white px-6 py-2 rounded-lg"
+                    >
+                        Crear Primer Venue
+                    </button>
+                </div>
+            ) : (
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    {venues.map((venue) => (
+                        <div key={venue.id} className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition">
+                            <div className="p-6">
+                                <div className="flex justify-between items-start mb-4">
+                                    <div>
+                                        <h3 className="text-xl font-bold text-gray-800 mb-1">
+                                            {venue.name}
+                                        </h3>
+                                        <p className="text-sm text-gray-500">ID: {venue.id}</p>
+                                    </div>
+                                    <span className="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded">
+                                        🏟️ Venue
+                                    </span>
+                                </div>
 
-            {venues.length === 0 && !loading && (
-                <div className="text-center py-12 text-gray-500">
-                    No hay venues registrados
+                                <div className="space-y-2 mb-4">
+                                    <div className="flex items-start gap-2">
+                                        <span className="text-gray-500 text-sm">📍</span>
+                                        <div className="text-sm text-gray-700">
+                                            <p>{venue.address}</p>
+                                            <p>{venue.city}, {venue.country}</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {/* Secciones */}
+                                <div className="mb-4 pt-4 border-t">
+                                    <button
+                                        onClick={() => navigate(`/admin/venues/${venue.id}/sections`)}
+                                        className="text-sm text-blue-600 hover:text-blue-700 font-medium"
+                                    >
+                                        📋 Ver Secciones
+                                    </button>
+                                </div>
+
+                                {/* Botones de acción */}
+                                <div className="flex gap-2 pt-4 border-t">
+                                    <button
+                                        onClick={() => navigate(`/admin/venues/edit/${venue.id}`)}
+                                        className="flex-1 bg-blue-500 hover:bg-blue-600 text-white text-sm py-2 px-3 rounded"
+                                    >
+                                        ✏️ Editar
+                                    </button>
+                                    <button
+                                        onClick={() => handleDelete(venue.id, venue.name)}
+                                        className="flex-1 bg-red-500 hover:bg-red-600 text-white text-sm py-2 px-3 rounded"
+                                    >
+                                        🗑️ Eliminar
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    ))}
                 </div>
             )}
         </div>

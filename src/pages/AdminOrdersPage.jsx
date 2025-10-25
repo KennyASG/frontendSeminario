@@ -16,7 +16,8 @@ export default function AdminOrdersPage() {
         try {
             setLoading(true);
             const data = await orderService.getAll();
-            setOrders(data);
+            console.log('Orders data:', data);
+            setOrders(Array.isArray(data) ? data : data.orders || []);
         } catch (err) {
             setError(err.message || 'Error al cargar órdenes');
         } finally {
