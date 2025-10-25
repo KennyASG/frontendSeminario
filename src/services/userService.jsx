@@ -42,6 +42,10 @@ const userService = {
         const user = this.getStoredUser();
         return user?.role_id === 1;
     },
+
+    getToken: () => {
+        return localStorage.getItem('token');
+    },
 };
 
 export default userService;
