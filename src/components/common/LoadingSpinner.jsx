@@ -1,4 +1,4 @@
-export default function LoadingSpinner({ message = 'Cargando...' }) {
+export default function LoadingSpinner({ message = 'cargando...' }) {
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-900">
       <div className="text-center">

@@ -1,5 +1,5 @@
 import { Link, useLocation } from 'react-router-dom';
-import userService from '../../services/userService';
+import userService from '../../services/UserService';
 
 const Sidebar = () => {
     const location = useLocation();

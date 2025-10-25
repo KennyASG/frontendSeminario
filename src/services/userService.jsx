@@ -1,7 +1,7 @@
 import apiService from './apiService';
 import API_ENDPOINTS from '../config/apiEndpoints';
 
-const userService = {
+const UserService = {
     async login(email, password) {
         const response = await apiService.post(API_ENDPOINTS.LOGIN, { email, password });
         if (response.token) {
@@ -48,7 +48,6 @@ const userService = {
 
     isAdmin() {
         const user = this.getStoredUser();
-        // El API devuelve user.role.id, no user.role_id
         return user?.role?.id === 1;
     },
 
@@ -57,4 +56,4 @@ const userService = {
     },
 };
 
-export default userService;
+export default UserService;
