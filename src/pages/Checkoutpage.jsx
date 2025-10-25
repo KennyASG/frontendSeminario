@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import Timer from '../components/common/Timer';
 import LoadingSpinner from '../components/common/LoadingSpinner';
 import OrderService from '../services/OrderService';
-import userService from '../services/userService';
+import userService from '../services/UserService';
 
 export default function CheckoutPage() {
     const navigate = useNavigate();
