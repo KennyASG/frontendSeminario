@@ -23,4 +23,6 @@ jobs:
         with:
           context: .
           push: true
-          tags: kennyadg/frontend-seminario:latest
+          tags: |
+            kennyadg/frontend-seminario:latest
+            kennyadg/frontend-seminario:${{ github.sha }}

@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: frontend-seminario
-          image: kennyadg/frontend-seminario:latest
+          image: kennyadg/frontend-seminario:latest  # Se actualizará con kubectl set image
           imagePullPolicy: Always
           ports:
             - containerPort: 80

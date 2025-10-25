@@ -1,13 +1,16 @@
 name: CD - Deploy Frontend
 
 on:
-  workflow_dispatch:
-  push:
-    branches: [ "main" ]
+  workflow_run:
+    workflows: ["CI - Build and Push Frontend Image"]
+    types: [completed]
+    branches: ["main"]
 
 jobs:
   deploy:
     runs-on: [self-hosted, Linux, X64]
+    # Solo desplegar si el CI fue exitoso
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
 
     steps:
       - name: Checkout repo
@@ -19,5 +22,12 @@ jobs:
       - name: Validar nodos
         run: kubectl get nodes -o wide
 
-      - name: Aplicar manifiestos frontend
-        run: kubectl apply -f k8s/frontend -n microservices
+      - name: Update deployment image
+        run: |
+          kubectl set image deployment/frontend-seminario \
+            frontend-seminario=kennyadg/frontend-seminario:${{ github.event.workflow_run.head_sha }} \
+            -n microservices
+          
+      - name: Wait for rollout to complete
+        run: |
+          kubectl rollout status deployment/frontend-seminario -n microservices --timeout=5m
