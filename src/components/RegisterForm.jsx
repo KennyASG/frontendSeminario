@@ -47,7 +47,6 @@ export default function RegisterForm() {
         }
 
         try {
-
             const registerData = {
                 name: formData.name,
                 lastname: formData.lastname,

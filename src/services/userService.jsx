@@ -30,8 +30,16 @@ const userService = {
     },
 
     getStoredUser() {
-        const user = localStorage.getItem('user');
-        return user ? JSON.parse(user) : null;
+        const userStr = localStorage.getItem('user');
+        if (userStr) {
+            try {
+                return JSON.parse(userStr);
+            } catch (error) {
+                console.error('Error parsing user:', error);
+                return null;
+            }
+        }
+        return null;
     },
 
     isAuthenticated() {
@@ -40,10 +48,11 @@ const userService = {
 
     isAdmin() {
         const user = this.getStoredUser();
-        return user?.role_id === 1;
+        // El API devuelve user.role.id, no user.role_id
+        return user?.role?.id === 1;
     },
 
-    getToken: () => {
+    getToken() {
         return localStorage.getItem('token');
     },
 };

@@ -5,7 +5,9 @@ import Navbar from '../components/layout/Navbar';
 import MainContent from '../components/layout/MainContent';
 import LoginPage from '../pages/Loginpage';
 import RegisterPage from '../components/RegisterPage';
-
+import AdminConcertsPage from '../pages/AdminConcertsPage';
+import AdminVenuesPage from '../pages/AdminVenuesPage';
+import AdminOrdersPage from '../pages/AdminOrdersPage';
 const ProtectedRoute = ({ children, adminOnly = false }) => {
     const isAuthenticated = userService.isAuthenticated();
     const isAdmin = userService.isAdmin();
@@ -53,17 +55,17 @@ const AppRoutes = () => {
                         } />
                         <Route path="/admin/concerts" element={
                             <ProtectedRoute adminOnly>
-                                <div>Admin Concerts Page</div>
+                                <AdminConcertsPage />
                             </ProtectedRoute>
                         } />
                         <Route path="/admin/venues" element={
                             <ProtectedRoute adminOnly>
-                                <div>Admin Venues Page</div>
+                                <AdminVenuesPage />
                             </ProtectedRoute>
                         } />
                         <Route path="/admin/orders" element={
                             <ProtectedRoute adminOnly>
-                                <div>Admin Orders Page</div>
+                                <AdminOrdersPage />
                             </ProtectedRoute>
                         } />
                         <Route path="*" element={<Navigate to="/concerts" replace />} />
