@@ -6,10 +6,10 @@ const Navbar = () => {
     const user = userService.getStoredUser();
     const isAdmin = userService.isAdmin();
 
-    const handleLogout = () => {
-        userService.logout();
-        navigate('/login');
-    };
+const handleLogout = () => {
+    userService.logout();
+    window.location.href = '/login';
+};
 
     return (
         <div className="bg-gradient-to-r from-gray-900 to-gray-800 border-b border-gray-700 px-6 py-4 flex justify-between items-center sticky top-0 z-40 shadow-lg">
