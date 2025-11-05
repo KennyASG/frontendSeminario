@@ -7,7 +7,7 @@ const API_ENDPOINTS = {
     ME: `${API_CONFIG.AUTH_SERVICE}/auth/me`,
     ADMIN_USERS: `${API_CONFIG.AUTH_SERVICE}/auth/admin/users`,
 
-    // CONCERTS - Puerto 3001 (mismo que auth)
+    // CONCERTS - Puerto 3001
     CONCERTS: `${API_CONFIG.CONCERT_SERVICE}/concert/concerts`,
     CONCERT_BY_ID: (id) => `${API_CONFIG.CONCERT_SERVICE}/concert/${id}`,
     CREATE_CONCERT: `${API_CONFIG.CONCERT_SERVICE}/concert/admin/concert`,
@@ -27,7 +27,6 @@ const API_ENDPOINTS = {
     DELETE_SECTION: (venueId, sectionId) => `${API_CONFIG.VENUE_SERVICE}/venue/admin/venue/${venueId}/section/${sectionId}`,
 
     // TICKETS - Puerto 3003
-    // ✅ CORREGIDO: Sin el prefijo /ticket extra
     TICKET_TYPES: (concertId) => `${API_CONFIG.TICKET_SERVICE}/concert/${concertId}/ticket-types`,
     CREATE_RESERVATION: `${API_CONFIG.TICKET_SERVICE}/ticket/reserve`,
     USER_RESERVATIONS: `${API_CONFIG.TICKET_SERVICE}/ticket/reservations`,

@@ -10,14 +10,37 @@ export default function AdminVenuesPage() {
     const navigate = useNavigate();
 
     useEffect(() => {
-        fetchVenues();
+        fetchVenuesWithSections();
     }, []);
 
-    const fetchVenues = async () => {
+    const fetchVenuesWithSections = async () => {
         try {
             setLoading(true);
+            
+            // Primero obtener todos los venues
             const data = await venueService.getAll();
-            setVenues(Array.isArray(data) ? data : data.venues || []);
+            const venuesArray = Array.isArray(data) ? data : data.venues || [];
+            
+            // secciones de cada venue
+            const venuesWithSections = await Promise.all(
+                venuesArray.map(async (venue) => {
+                    try {
+                        const sections = await venueService.getSections(venue.id);
+                        return {
+                            ...venue,
+                            sections: Array.isArray(sections) ? sections : sections.sections || []
+                        };
+                    } catch (err) {
+                        console.error(`Error loading sections for venue ${venue.id}:`, err);
+                        return {
+                            ...venue,
+                            sections: []
+                        };
+                    }
+                })
+            );
+            
+            setVenues(venuesWithSections);
         } catch (err) {
             setError(err.message || 'Error al cargar venues');
         } finally {
@@ -39,6 +62,12 @@ export default function AdminVenuesPage() {
     if (loading) {
         return <LoadingSpinner message="Cargando venues..." />;
     }
+
+    // Calcular stats
+    const totalCapacity = venues.reduce((sum, v) => 
+        sum + (v.sections?.reduce((s, sec) => s + (sec.capacity || 0), 0) || 0), 0
+    );
+    const uniqueCities = new Set(venues.map(v => v.city)).size;
 
     return (
         <div className="min-h-screen bg-gradient-to-b from-gray-900 via-gray-800 to-black text-white p-6">
@@ -81,7 +110,7 @@ export default function AdminVenuesPage() {
                             <div>
                                 <p className="text-gray-400 text-sm">Capacidad Total</p>
                                 <p className="text-2xl font-bold text-blue-500">
-                                    {venues.reduce((sum, v) => sum + (v.sections?.reduce((s, sec) => s + (sec.capacity || 0), 0) || 0), 0).toLocaleString()}
+                                    {totalCapacity.toLocaleString()}
                                 </p>
                             </div>
                             <div className="w-12 h-12 bg-blue-500/20 rounded-lg flex items-center justify-center">
@@ -97,7 +126,7 @@ export default function AdminVenuesPage() {
                             <div>
                                 <p className="text-gray-400 text-sm">Ciudades</p>
                                 <p className="text-2xl font-bold text-green-500">
-                                    {new Set(venues.map(v => v.city)).size}
+                                    {uniqueCities}
                                 </p>
                             </div>
                             <div className="w-12 h-12 bg-green-500/20 rounded-lg flex items-center justify-center">
@@ -143,7 +172,7 @@ export default function AdminVenuesPage() {
                             key={venue.id}
                             className="bg-gradient-to-br from-gray-800 to-gray-900 rounded-2xl border border-gray-700 overflow-hidden hover:border-gray-600 transition-all"
                         >
-                            {/* Header with image placeholder */}
+                            {/* Header with gradient */}
                             <div className="h-32 bg-gradient-to-br from-purple-600 to-blue-600 relative">
                                 <div className="absolute inset-0 bg-black/40"></div>
                                 <div className="absolute bottom-4 left-4">
@@ -191,20 +220,18 @@ export default function AdminVenuesPage() {
                                         </svg>
                                         Secciones
                                     </button>
-
                                     <button
-                                        onClick={() => navigate(`/admin/venues/edit/${venue.id}`)}
-                                        className="p-2 bg-orange-500/20 hover:bg-orange-500/30 text-orange-400 rounded-lg transition-colors"
+                                        onClick={() => navigate(`/admin/venues/${venue.id}/edit`)}
+                                        className="bg-orange-600 hover:bg-orange-700 text-white p-2 rounded-lg transition-colors"
                                         title="Editar"
                                     >
                                         <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
                                         </svg>
                                     </button>
-
                                     <button
                                         onClick={() => handleDelete(venue.id, venue.name)}
-                                        className="p-2 bg-red-500/20 hover:bg-red-500/30 text-red-400 rounded-lg transition-colors"
+                                        className="bg-red-600 hover:bg-red-700 text-white p-2 rounded-lg transition-colors"
                                         title="Eliminar"
                                     >
                                         <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
