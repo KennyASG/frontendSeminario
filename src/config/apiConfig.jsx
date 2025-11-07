@@ -1,4 +1,4 @@
-const BASE_URL = 'http://backend.ingeniebrios.work.gd';
+const BASE_URL = 'https://backend.ingeniebrios.work.gd';
 
 const API_CONFIG = {
     AUTH_SERVICE: BASE_URL,
