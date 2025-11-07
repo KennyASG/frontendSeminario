@@ -7,7 +7,7 @@ import LoginPage from '../pages/LoginPage';
 import RegisterPage from '../components/RegisterPage';
 import ConcertsPage from '../pages/ConcertsPage';
 import ConcertDetailPage from '../pages/ConcertDetailPage';
-import CheckoutPage from '../pages/CheckoutPage';
+import CheckoutPage from '../pages/Checkoutpage';
 import PaymentPage from '../pages/PaymentPage';
 import MyOrdersPage from '../pages/MyOrdersPage';
 import OrderDetailPage from '../pages/OrderDetailPage';
@@ -18,6 +18,7 @@ import VenueForm from '../pages/VenueForm';
 import VenueSectionsPage from '../pages/VenuesSectionPage';
 import ConcertTicketTypesPage from '../pages/ConcertTicketTypesPage';
 import AdminOrdersPage from '../pages/AdminOrdersPage';
+
 
 // Componente de ruta protegida
 const ProtectedRoute = ({ children, adminOnly = false }) => {

@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import ConcertService from '../services/ConcertService';
+import ConcertService from '../services/concertService';
 import LoadingSpinner from '../components/common/LoadingSpinner';
 
 export default function AdminConcertsPage() {

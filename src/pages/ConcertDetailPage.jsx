@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import concertService from '../services/concertService';
 import TicketService from '../services/TicketService';
-import userService from '../services/userService';
+import userService from '../services/UserService';
 import LoadingSpinner from '../components/common/LoadingSpinner';
 
 export default function ConcertDetailPage() {
