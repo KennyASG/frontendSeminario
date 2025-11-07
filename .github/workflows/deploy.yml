@@ -15,49 +15,37 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v3
 
-      - name: Ver contexto del cluster
-        run: kubectl config current-context
+      - name: Set IMAGE_TAG from triggering workflow
+        run: echo "IMAGE_TAG=${{ github.event.workflow_run.head_sha }}" >> $GITHUB_ENV
 
-      - name: Validar nodos
-        run: kubectl get nodes -o wide
-
-      # 🔥 PASO 1: ELIMINAR TODO (si existe)
-      - name: Delete old resources
+      - name: Verify cluster context
         run: |
-          echo "🗑️ Eliminando recursos anteriores..."
-          kubectl delete deployment frontend-seminario -n microservices --ignore-not-found=true
-          kubectl delete pods -l app=frontend-seminario -n microservices --ignore-not-found=true
-          echo "✅ Limpieza completada"
+          kubectl config current-context
+          kubectl get nodes -o wide
 
-      # ⏳ PASO 2: ESPERAR A QUE TODO SE LIMPIE
-      - name: Wait for cleanup
+      # 🚀 Actualizar el tag de la imagen dinámicamente
+      - name: Update deployment image tag
         run: |
-          echo "⏳ Esperando limpieza completa..."
-          sleep 15
-          
-      # 🚀 PASO 3: APLICAR MANIFIESTOS FRESCOS
-      - name: Apply fresh manifests
+          echo "🔄 Actualizando tag de imagen en deployment.yaml..."
+          sed -i "s|kennyadg/frontend-seminario:latest|kennyadg/frontend-seminario:${IMAGE_TAG}|g" k8s/frontend/deployment.yaml
+          echo "✅ Tag actualizado a ${IMAGE_TAG}"
+
+      # 🚀 Aplicar manifiestos actualizados
+      - name: Apply updated manifests
         run: |
           echo "📦 Aplicando manifiestos..."
           kubectl apply -f k8s/frontend/
           echo "✅ Manifiestos aplicados"
 
-      # ⏳ PASO 4: ESPERAR A QUE EL DEPLOYMENT ESTÉ LISTO
-      - name: Wait for deployment to be ready
+      # ⏳ Esperar rollout
+      - name: Wait for rollout
         run: |
-          echo "⏳ Esperando a que el deployment esté listo..."
-          kubectl wait --for=condition=available --timeout=300s deployment/frontend-seminario -n microservices
-          echo "✅ Deployment listo"
+          kubectl rollout status deployment/frontend-seminario -n microservices --timeout=300s
+          echo "✅ Deployment completado"
 
-      # ℹ️ PASO 5: VERIFICAR EL ESTADO
-      - name: Verify deployment
+      # 🧾 Verificar versión desplegada
+      - name: Verify deployed image
         run: |
-          echo "📊 Estado del deployment:"
-          kubectl get deployment frontend-seminario -n microservices
-          echo ""
-          echo "📦 Pods en ejecución:"
-          kubectl get pods -l app=frontend-seminario -n microservices
-          echo ""
-          echo "🖼️ Imagen actual:"
+          echo "🖼️ Imagen desplegada:"
           kubectl get pods -l app=frontend-seminario -n microservices -o jsonpath='{.items[0].spec.containers[0].image}'
           echo ""

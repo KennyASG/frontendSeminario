@@ -16,12 +16,8 @@ spec:
       containers:
         - name: frontend-seminario
           image: kennyadg/frontend-seminario:latest
-          imagePullPolicy: Always
           ports:
             - containerPort: 80
-          env:
-            - name: DEPLOY_TIME
-              value: "TIMESTAMP_PLACEHOLDER"  # Esto se puede cambiar para forzar redespliegue
           resources:
             requests:
               memory: "64Mi"
