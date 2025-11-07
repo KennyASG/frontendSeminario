@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import userService from '../services/userService';
+import UserService from '../services/UserService';
 
 export default function RegisterForm() {
     const [formData, setFormData] = useState({
@@ -57,7 +57,7 @@ export default function RegisterForm() {
                 role: 2
             };
 
-            await userService.register(registerData);
+            await UserService.register(registerData);
 
             setSuccess('¡Cuenta creada exitosamente! Redirigiendo al login...');
 

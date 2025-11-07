@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import userService from '../services/userService';
+import UserService from '../services/UserService';
 
 export default function LoginPage() {
     const [email, setEmail] = useState('');
@@ -17,7 +17,7 @@ export default function LoginPage() {
         setError('');
 
         try {
-            const response = await userService.login(email, password);
+            const response = await UserService.login(email, password);
 
             const roleId = response.user.role.id;
 

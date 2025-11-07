@@ -1,13 +1,13 @@
 import { Routes, Route, Navigate } from 'react-router-dom';
-import userService from '../services/userService';
+import userService from '../services/UserService';
 import Sidebar from '../components/layout/Sidebar';
 import Navbar from '../components/layout/Navbar';
 import MainContent from '../components/layout/MainContent';
-import LoginPage from '../pages/Loginpage';
+import LoginPage from '../pages/LoginPage';
 import RegisterPage from '../components/RegisterPage';
 import ConcertsPage from '../pages/ConcertsPage';
 import ConcertDetailPage from '../pages/ConcertDetailPage';
-import CheckoutPage from '../pages/Checkoutpage';
+import CheckoutPage from '../pages/CheckoutPage';
 import PaymentPage from '../pages/PaymentPage';
 import MyOrdersPage from '../pages/MyOrdersPage';
 import OrderDetailPage from '../pages/OrderDetailPage';
