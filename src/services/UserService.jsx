@@ -10,7 +10,7 @@ const UserService = {
         }
         return response;
     },
-//cambio de nombre
+//cambio de nombre redplo
     async register(userData) {
         const response = await apiService.post(API_ENDPOINTS.REGISTER, userData);
         if (response.token) {
