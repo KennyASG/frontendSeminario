@@ -1,5 +1,5 @@
 import { Routes, Route, Navigate } from 'react-router-dom';
-import userService from '../services/UserService';
+import UserService from '../services/UserService';
 import Sidebar from '../components/layout/Sidebar';
 import Navbar from '../components/layout/Navbar';
 import MainContent from '../components/layout/MainContent';
@@ -21,8 +21,8 @@ import AdminOrdersPage from '../pages/AdminOrdersPage';
 
 // Componente de ruta protegida
 const ProtectedRoute = ({ children, adminOnly = false }) => {
-    const isAuthenticated = userService.isAuthenticated();
-    const isAdmin = userService.isAdmin();
+    const isAuthenticated = UserService.isAuthenticated();
+    const isAdmin = UserService.isAdmin();
 
     if (!isAuthenticated) {
         return <Navigate to="/login" replace />;
@@ -36,7 +36,7 @@ const ProtectedRoute = ({ children, adminOnly = false }) => {
 };
 
 function AppRoutes() {
-    const isAuthenticated = userService.isAuthenticated();
+    const isAuthenticated = UserService.isAuthenticated();
 
     return (
         <>

@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import Concertservice from '../services/ConcertService';
+import ConcertService from '../services/ConcertService';
 import LoadingSpinner from '../components/common/LoadingSpinner';
 
 export default function AdminConcertsPage() {
@@ -16,7 +16,7 @@ export default function AdminConcertsPage() {
     const fetchConcerts = async () => {
         try {
             setLoading(true);
-            const data = await Concertservice.getAll();
+            const data = await ConcertService.getAll();
             setConcerts(Array.isArray(data) ? data : data.concerts || []);
         } catch (err) {
             setError(err.message || 'Error al cargar conciertos');
@@ -29,7 +29,7 @@ export default function AdminConcertsPage() {
         if (!confirm(`¿Estás seguro de eliminar el concierto "${title}"?`)) return;
 
         try {
-            await Concertservice.delete(id);
+            await ConcertService.delete(id);
             setConcerts(concerts.filter(c => c.id !== id));
         } catch (err) {
             alert(err.message || 'Error al eliminar');

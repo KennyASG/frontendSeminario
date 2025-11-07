@@ -1,7 +1,7 @@
 import apiService from './apiService';
 import API_ENDPOINTS from '../config/apiEndpoints';
 
-const concertService = {
+const ConcertService = {
     async getAll() {
         return await apiService.get(API_ENDPOINTS.CONCERTS);
     },
@@ -23,4 +23,4 @@ const concertService = {
     }
 };
 
-export default concertService;
+export default ConcertService;
